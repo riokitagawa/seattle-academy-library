@@ -58,19 +58,17 @@ public class AccountController {
 		if (password.matches("^([a-zA-Z0-9]{8,})$")) {
 
 			if (password.equals(passwordForCheck)) {
+				userInfo.setPassword(password);
+				usersService.registUser(userInfo);
 				return "login";
 			} else {
 
-				model.addAttribute("errorMessage","パスワードが一致しません。" );
+				model.addAttribute("errorMessage", "パスワードが一致しません。");
 				return "createAccount";
 
-				// userInfo.setPassword(password);
-				// usersService.registUser(userInfo);
-
 			}
-		}
-		else { 
-			model.addAttribute("errorMessage","パスワードが一致しません。" );
+		} else {
+			model.addAttribute("errorMessage", "パスワードが一致しません。");
 			return "createAccount";
 		}
 	}
