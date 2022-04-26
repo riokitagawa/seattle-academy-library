@@ -57,7 +57,7 @@ public class AddBooksController {
 			@RequestParam("publisher") String publisher, 
 			@RequestParam("publishDate") String publishDate,
 			@RequestParam("thumbnail") MultipartFile file, 
-			@RequestParam("ISBN") String ISBN,
+			@RequestParam("ISBN") String isbn,
 			@RequestParam("explain") String explain, Model model) {
 		logger.info("Welcome insertBooks.java! The client locale is {}.", locale);
 
@@ -67,7 +67,7 @@ public class AddBooksController {
 		bookInfo.setAuthor(author);
 		bookInfo.setPublisher(publisher);
 		bookInfo.setPublishDate(publishDate);
-		bookInfo.setISBN(ISBN);
+		bookInfo.setISBN(isbn);
 		bookInfo.setExplain(explain);
 
 		// クライアントのファイルシステムにある元のファイル名を設定する
@@ -97,10 +97,10 @@ public class AddBooksController {
 		if (title.equals("") || author.equals("") || publisher.equals("") || publishDate.equals("")) {
 			errorList.add("必須項目が未入力です");
 		}
-		if (!(publishDate.matches("^[0-9]{4}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])$"))) {
+		if (!publishDate.matches("^[0-9]{4}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])$")) {
 			errorList.add("出版日は半角数字のYYYYMMDD形式で入力してください");
 		}
-		if ((!(ISBN.equals(""))) && (!(ISBN.matches("^[0-9]{10}|[0-9]{13}+$/")))) {
+		if (!isbn.equals("") && !isbn.matches("^[0-9]{10}|[0-9]{13}+$/")) {
 			errorList.add("ISBNの桁数または半角英数が正しくありません");
 		}
 		if (errorList.size() > 0) {
@@ -115,7 +115,7 @@ public class AddBooksController {
 		model.addAttribute("resultMessage", "登録完了");
 
 		// TODO 登録した書籍の詳細情報を表示するように実装
-		model.addAttribute("bookDetailsInfo", bookInfo);
+		model.addAttribute("bookDetailsInfo", booksService.getBookInfo());
 
 		// 詳細画面に遷移する
 		return "details";
