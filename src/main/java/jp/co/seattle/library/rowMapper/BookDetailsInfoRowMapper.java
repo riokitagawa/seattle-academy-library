@@ -20,8 +20,11 @@ public class BookDetailsInfoRowMapper implements RowMapper<BookDetailsInfo> {
         bookDetailsInfo.setTitle(rs.getString("title"));
         bookDetailsInfo.setAuthor(rs.getString("author"));
         bookDetailsInfo.setPublisher(rs.getString("publisher"));
-        bookDetailsInfo.setThumbnailName(rs.getString("thumbnail_name"));
+        bookDetailsInfo.setPublishDate(rs.getString("publish_date"));
+        bookDetailsInfo.setISBN(rs.getString("isbn"));
+        bookDetailsInfo.setExplain(rs.getString("explain"));
         bookDetailsInfo.setThumbnailUrl(rs.getString("thumbnail_url"));
+        bookDetailsInfo.setThumbnailName(rs.getString("thumbnail_name"));
         return bookDetailsInfo;
     }
 
