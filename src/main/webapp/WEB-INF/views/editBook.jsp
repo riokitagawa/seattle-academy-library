@@ -30,51 +30,87 @@
         </div>
     </header>
     <main>
-        <h1>書籍の詳細</h1>
-        <div class="content_body detail_book_content">
-            <div class="content_left">
-                <span>書籍の画像</span>
-                <div class="book_thumnail">
-                    <a href="${bookDetailsInfo.thumbnailUrl}" data-lightbox="image-1"> <c:if test="${bookDetailsInfo.thumbnailUrl == 'null'}">
-                            <img class="book_noimg" src="resources/img/noImg.png">
-                        </c:if> <c:if test="${bookDetailsInfo.thumbnailUrl != 'null'}">
-                            <img class="book_noimg" src="${bookDetailsInfo.thumbnailUrl}">
-                        </c:if> <input type="hidden" name="bookId" value="${bookDetailsInfo.bookId}">
-                    </a>
+        <form action="<%=request.getContextPath()%>/updateBook" method="post" enctype="multipart/form-data" id="data_upload_form">
+            <h1>書籍の編集</h1>
+            <div class="content_body detail_book_content">
+                <div class="content_left">
+                    <span>書籍の画像</span> <span class="care care1">任意</span>
+                    <div class="book_thumnail">
+                        <img class="book_noimg" src="resources/img/noImg.png">
+                    </div>
+                    <input type="file" accept="image/*" name="thumbnail" id="thumbnail">
+                </div>
+                <div class="content_right">
+                    <c:if test="${!empty errorList}">
+                        <div class="error">
+                            <c:forEach var="errorMessage" items="${errorList}">
+                                    ${errorMessage}<br>
+                            </c:forEach>
+                        </div>
+                    </c:if>
+                    <input type="hidden" name="bookId" value="${bookDetailsInfo.bookId}">
+                    <div>
+                        <span>書籍名</span><span class="care care2">必須</span>
+                        <c:if test="${!empty bookDetailsInfo}">
+                            <input type="text" name="title" value="${bookDetailsInfo.title}">
+                        </c:if>
+                        <c:if test="${empty bookDetailsInfo}">
+                            <input type="text" name="title" autocomplete="off">
+                        </c:if>
+                    </div>
+                    <div>
+                        <span>著者名</span><span class="care care2">必須</span>
+                        <c:if test="${!empty bookDetailsInfo}">
+                            <input type="text" name="author" value="${bookDetailsInfo.author}">
+                        </c:if>
+                        <c:if test="${empty bookDetailsInfo}">
+                            <input type="text" name="author" autocomplete="off">
+                        </c:if>
+                    </div>
+                    <div>
+                        <span>出版社</span><span class="care care2">必須</span>
+                        <c:if test="${!empty bookDetailsInfo}">
+                            <input type="text" name="publisher" value="${bookDetailsInfo.publisher}">
+                        </c:if>
+                        <c:if test="${empty bookDetailsInfo}">
+                            <input type="text" name="publisher">
+                        </c:if>
+                    </div>
+                    <div>
+                        <span>出版日</span><span class="care care2">必須</span>
+                        <c:if test="${!empty bookDetailsInfo}">
+                            <input type="text" name="publishDate" value="${bookDetailsInfo.publishDate}">
+                        </c:if>
+                        <c:if test="${empty bookDetailsInfo}">
+                            <input type="text" name="publishDate" placeholder="YYYYMMDD">
+                        </c:if>
+                    </div>
+                    <div>
+                        <span>ISBN</span><span class="care care1">任意</span>
+                        <c:if test="${!empty bookDetailsInfo}">
+                            <input type="text" name="ISBN" value="${bookDetailsInfo.ISBN}">
+                        </c:if>
+                        <c:if test="${empty bookDetailsInfo}">
+                            <input type="text" name="ISBN">
+                        </c:if>
+                    </div>
+                    <div>
+                        <span>説明</span><span class="care care1">任意</span>
+                        <c:if test="${!empty bookDetailsInfo}">
+                            <input type="text" name="explain" value="${bookDetailsInfo.explain}">
+                        </c:if>
+                        <c:if test="${empty bookDetailsInfo}">
+                            <input type="text" name="explain">
+                        </c:if>
+                    </div>
                 </div>
             </div>
-            <div class="content_right">
-                <div>
-                    <span>書籍名</span>
-                    <p>${bookDetailsInfo.title}</p>
-                </div>
-                <div>
-                    <span>著者名</span>
-                    <p>${bookDetailsInfo.author}</p>
-                </div>
-                <div>
-                    <span>出版社</span>
-                    <p>${bookDetailsInfo.publisher}</p>
-                </div>
-                <div>
-                    <span>出版日</span>
-                    <p>${bookDetailsInfo.publishDate}</p>
-                </div>
-                <div>
-                    <span>ISBN</span>
-                    <p>${bookDetailsInfo.ISBN}</p>
-                </div>
-                <div>
-                    <span>説明</span>
-                    <p>${bookDetailsInfo.explain}</p>
+            <div class="edtDelBookBtn_box">
+                <div class="addBookBtn_box">
+                    <button type="submit" id="add-btn" class="btn_addBook">更新</button>
                 </div>
             </div>
-        </div>
-        <div class="edtDelBookBtn_box">
-            <form method="post" action="editBook">
-                <button type="submit" value="${bookDetailsInfo.bookId}" name="bookId" class="btn_editBook">更新</button>
-            </form>
-        </div>
+        </form>
     </main>
 </body>
 </html>

@@ -56,6 +56,16 @@ public class BooksService {
         return bookDetailsInfo;
     }
 
+    public BookDetailsInfo getBookInfo() {
+
+        // JSPに渡すデータを設定する
+        String sql =  "select * from books where id = (select MAX(id) from books)";
+              
+
+        BookDetailsInfo bookDetailsInfo = jdbcTemplate.queryForObject(sql, new BookDetailsInfoRowMapper());
+
+        return bookDetailsInfo;
+    }
     /**
      * 書籍を登録する
      *
@@ -74,6 +84,18 @@ public class BooksService {
         jdbcTemplate.update(sql);
     }
 
+    //書籍を編集する
+    public void updateBook(BookDetailsInfo bookInfo, int bookId) {
+    	String sql = "update books set (title, author,publisher,publish_date,isbn,explain, thumbnail_name,thumbnail_url,upd_date) = ('"
+    			+ bookInfo.getTitle() + "','" + bookInfo.getAuthor() + "','" + bookInfo.getPublisher() + "','" + bookInfo.getPublishDate() + "','"
+                + bookInfo.getISBN()  + "','" + bookInfo.getExplain() + "','" 
+                + bookInfo.getThumbnailName() + "','"
+                + bookInfo.getThumbnailUrl() + "',"
+                + "now())where id =" + bookId; 
+    	 
+    		jdbcTemplate.update(sql);
+    }
+    
 	
 
 	public void deleteBook(int bookId) {
