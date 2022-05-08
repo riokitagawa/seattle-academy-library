@@ -53,9 +53,11 @@ public class bulkRegistBookController {
 		try (BufferedReader br = new BufferedReader(
 				new InputStreamReader(uploadFile.getInputStream(), StandardCharsets.UTF_8))) {
 
+			if (!br.ready()) {
+				bulkErrorList.add("csvに書籍情報がありません。");
+			}
 			String line;
 			int lineCount = 0;
-			
 			while ((line = br.readLine()) != null) {
 				final String[] uploadElement = line.split(",", -1);
 				System.out.println(uploadElement);
@@ -68,10 +70,7 @@ public class bulkRegistBookController {
 				bookInfo.setISBN(uploadElement[4]);
 
 				lineCount++;
-
-				if (line.isEmpty()) {
-					bulkErrorList.add("csvに書籍情報がありません。");
-				}
+				
 				if (uploadElement[0].equals("") || uploadElement[1].equals("") || uploadElement[2].equals("")
 						|| uploadElement[3].equals("")
 						|| !uploadElement[3].matches("^[0-9]{4}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])$")
@@ -82,7 +81,7 @@ public class bulkRegistBookController {
 
 				}
 			}
-
+			
 			if (bulkErrorList.size() > 0) {
 				model.addAttribute("bulkErrorList", bulkErrorList);
 				return "bulkRegistBook";
