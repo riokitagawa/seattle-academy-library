@@ -12,7 +12,7 @@ import jp.co.seattle.library.rowMapper.RentBookRowMapper;
 /**
  * 書籍サービス
  * 
- * booksテーブルに関する処理を実装する
+ * rentbooksテーブルに関する処理を実装する
  */
 @Service
 public class RentBookService {
@@ -42,5 +42,16 @@ public class RentBookService {
 			return null;
 		}
 
+	}
+	/**
+	 * 貸出してある書籍を貸出テーブルから削除する
+	 *
+	 * @param bookInfo 書籍情報
+	 */
+	public void returnBook(int bookId) {
+
+		String sql = "delete from rentbooks where book_id =" + bookId;
+
+		jdbcTemplate.update(sql);
 	}
 }
