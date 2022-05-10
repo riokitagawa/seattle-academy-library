@@ -55,6 +55,12 @@ public class BooksService {
 		return bookDetailsInfo;
 	}
 
+	/**
+	 * 書籍情報を取得する
+	 * 
+	 * @return 書籍詳細情報
+	 */
+
 	public BookDetailsInfo getBookInfo() {
 
 		// JSPに渡すデータを設定する
@@ -98,16 +104,26 @@ public class BooksService {
 		}
 	}
 
-	// 書籍を編集する
-	public void updateBook(BookDetailsInfo bookInfo, int bookId) {
+	/**
+	 * 書籍を更新する
+	 *
+	 * @param bookInfo 書籍情報
+	 */
+	public void updateBook(BookDetailsInfo bookInfo) {
 		String sql = "update books set (title, author,publisher,publish_date,isbn,explain, thumbnail_name,thumbnail_url,upd_date) = ('"
 				+ bookInfo.getTitle() + "','" + bookInfo.getAuthor() + "','" + bookInfo.getPublisher() + "','"
 				+ bookInfo.getPublishDate() + "','" + bookInfo.getISBN() + "','" + bookInfo.getExplain() + "','"
-				+ bookInfo.getThumbnailName() + "','" + bookInfo.getThumbnailUrl() + "'," + "now())where id =" + bookId;
+				+ bookInfo.getThumbnailName() + "','" + bookInfo.getThumbnailUrl() + "'," + "now())where id ="
+				+ bookInfo.getBookId();
 
 		jdbcTemplate.update(sql);
 	}
 
+	/**
+	 * 書籍を削除する
+	 *
+	 * @param bookId 書籍ID
+	 */
 	public void deleteBook(int bookId) {
 
 		String sql = "delete from books where id =" + bookId;
