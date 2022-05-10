@@ -32,6 +32,16 @@ public class EditBookController {
 	@Autowired
 	private ThumbnailService thumbnailService;
 
+	/**
+	* 書籍情報を編集する
+	*
+	* @param locale ロケール情報
+	* @param bookId 書籍I
+	* @param model モデル
+	* @return 遷移先画面
+	*/
+
+
 	@RequestMapping(value = "/editBook", method = RequestMethod.POST) // value＝actionで指定したパラメータ
 	// RequestParamでname属性を取得
 	public String login(@RequestParam("bookId") int bookID, Model model) {
@@ -109,7 +119,7 @@ public class EditBookController {
 		}
 
 		// 書籍情報を更新する
-		booksService.updateBook(bookInfo, bookId);
+		booksService.updateBook(bookInfo);
 
 		model.addAttribute("resultMessage", "更新完了");
 
