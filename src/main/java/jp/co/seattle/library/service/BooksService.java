@@ -54,12 +54,13 @@ public class BooksService {
 
 		return bookDetailsInfo;
 	}
+
 	/**
-	* 書籍情報を取得する
-	* 
-	* @return 書籍詳細情報
-	*/
-	
+	 * 書籍情報を取得する
+	 * 
+	 * @return 書籍詳細情報
+	 */
+
 	public BookDetailsInfo getBookInfo() {
 
 		// JSPに渡すデータを設定する
@@ -71,7 +72,7 @@ public class BooksService {
 	}
 
 	/**
-	 * 書籍ID情報に紐づく書籍を登録する
+	 * 書籍を登録する
 	 *
 	 * @param bookInfo 書籍情報
 	 */
@@ -84,8 +85,27 @@ public class BooksService {
 
 		jdbcTemplate.update(sql);
 	}
+
 	/**
-	 * 書籍を編集する
+	 * 一括で書籍を登録する
+	 * 
+	 * @param bulkBookList
+	 */
+	public void bulkRegistBook(List<BookDetailsInfo> bulkBookList) {
+		for (BookDetailsInfo bookInfo : bulkBookList) {
+
+			String sql = "INSERT INTO books (title,author,publisher,publish_date,isbn,explain,thumbnail_url,reg_date,upd_date) VALUES ('"
+					+ bookInfo.getTitle() + "','" + bookInfo.getAuthor() + "','" + bookInfo.getPublisher() + "','"
+					+ bookInfo.getPublishDate() + "','" + bookInfo.getISBN() + "','" + bookInfo.getExplain() + "','"
+					+ bookInfo.getThumbnailUrl() + "'," + "now()," + "now())";
+
+			jdbcTemplate.update(sql);
+			System.out.println(sql);
+		}
+	}
+
+	/**
+	 * 書籍を更新する
 	 *
 	 * @param bookInfo 書籍情報
 	 */
@@ -93,10 +113,12 @@ public class BooksService {
 		String sql = "update books set (title, author,publisher,publish_date,isbn,explain, thumbnail_name,thumbnail_url,upd_date) = ('"
 				+ bookInfo.getTitle() + "','" + bookInfo.getAuthor() + "','" + bookInfo.getPublisher() + "','"
 				+ bookInfo.getPublishDate() + "','" + bookInfo.getISBN() + "','" + bookInfo.getExplain() + "','"
-				+ bookInfo.getThumbnailName() + "','" + bookInfo.getThumbnailUrl() + "'," + "now())where id =" + bookInfo.getBookId();
+				+ bookInfo.getThumbnailName() + "','" + bookInfo.getThumbnailUrl() + "'," + "now())where id ="
+				+ bookInfo.getBookId();
 
 		jdbcTemplate.update(sql);
 	}
+
 	/**
 	 * 書籍を削除する
 	 *
@@ -105,7 +127,6 @@ public class BooksService {
 	public void deleteBook(int bookId) {
 
 		String sql = "delete from books where id =" + bookId;
-		    		
 
 		jdbcTemplate.update(sql);
 	}
