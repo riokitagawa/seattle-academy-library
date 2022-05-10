@@ -27,7 +27,7 @@ public class ReturnBookController {
 	private RentBookService rentBookService;
     @Autowired
 	private BooksService booksService;
-    
+     
     /**
      * 対象書籍を削除する
      *
