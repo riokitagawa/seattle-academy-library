@@ -31,7 +31,11 @@ public class RentBookService {
 
 		jdbcTemplate.update(sql);
 	}
-
+	/**
+	 * 貸出テーブルから情報取得
+	 *
+	 * @param bookInfo 書籍情報
+	 */
 	public BookRentInfo selectRentBookInfo(int bookId) {
 		String sql = "select * from rentbooks where book_id =" + bookId;
 
