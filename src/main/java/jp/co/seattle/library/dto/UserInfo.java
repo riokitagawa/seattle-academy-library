@@ -28,6 +28,7 @@ public class UserInfo {
         this.userId = userId;
         this.email = email;
         this.password = password;
+        
     }
 
 }
