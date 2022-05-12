@@ -37,14 +37,20 @@ public class RentBookController {
 		if (selectedRentInfo != null) {
 			model.addAttribute("errorMessage", "貸出済みです");
 			model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
-			return "details";
 		} else {
 
 			// 貸出テーブルに登録
 			rentBookService.rentBook(bookId);
 			// 書籍の情報保持
 			model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
-			return "details";
+
 		}
+		String bookDetailsInfo = booksService.getStatusBookInfo(bookId);
+		if (bookDetailsInfo == null) {
+			model.addAttribute("statusMessage", "貸し出し可");
+		} else {
+			model.addAttribute("statusMessage", "貸し出し中");
+		}
+		return "details";
 	}
 }

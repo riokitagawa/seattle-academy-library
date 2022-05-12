@@ -17,47 +17,49 @@ import jp.co.seattle.library.service.BooksService;
 import jp.co.seattle.library.service.RentBookService;
 
 /**
- * 削除コントローラー
+ * 返却コントローラー
  */
-@Controller //APIの入り口
+@Controller // APIの入り口
 public class ReturnBookController {
-    final static Logger logger = LoggerFactory.getLogger(ReturnBookController.class);
-    
-    @Autowired
-	private RentBookService rentBookService;
-    @Autowired
-	private BooksService booksService;
-     
-    /**
-     * 対象書籍を削除する
-     *
-     * @param locale ロケール情報
-     * @param bookId 書籍ID
-     * @param model モデル情報
-     * @return 遷移先画面名
-     */
-    @Transactional
-    @RequestMapping(value = "/returnBook", method = RequestMethod.POST)
-    public String returnBook(
-            Locale locale,
-            @RequestParam("bookId") Integer bookId,
-            Model model) {
-        logger.info("Welcome returnBook! The client locale is {}.", locale);
+	final static Logger logger = LoggerFactory.getLogger(ReturnBookController.class);
 
-        BookRentInfo selectedReturntInfo = rentBookService.selectRentBookInfo(bookId);
+	@Autowired
+	private RentBookService rentBookService;
+	@Autowired
+	private BooksService booksService;
+
+	/**
+	 * 対象書籍を返却する
+	 *
+	 * @param locale ロケール情報
+	 * @param bookId 書籍ID
+	 * @param model  モデル情報
+	 * @return 遷移先画面名
+	 */
+	@Transactional
+	@RequestMapping(value = "/returnBook", method = RequestMethod.POST)
+	public String returnBook(Locale locale, @RequestParam("bookId") Integer bookId, Model model) {
+		logger.info("Welcome returnBook! The client locale is {}.", locale);
+
+		BookRentInfo selectedReturntInfo = rentBookService.selectRentBookInfo(bookId);
 
 		if (selectedReturntInfo == null) {
 			model.addAttribute("errorMessage", "貸出しされていません。");
 			model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
-			return "details";
-		} else {
-			
-			rentBookService.returnBook(bookId);
-	        
-	        model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
-	        return "details";
-	    }
 
-    }
-   
+		} else {
+
+			rentBookService.returnBook(bookId);
+
+			model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
+		}
+		String bookDetailsInfo = booksService.getStatusBookInfo(bookId);
+		if (bookDetailsInfo == null) {
+			model.addAttribute("statusMessage", "貸し出し可");
+		} else {
+			model.addAttribute("statusMessage", "貸し出し中");
+		}
+		return "details";
+	}
+
 }
