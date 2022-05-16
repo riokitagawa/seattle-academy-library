@@ -23,7 +23,6 @@ public class DetailsController {
 
     @Autowired
     private BooksService bookdService;
-
     /**
      * 詳細画面に遷移する
      * @param locale
