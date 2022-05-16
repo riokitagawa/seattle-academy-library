@@ -29,7 +29,7 @@ public class ReturnBookController {
 	private BooksService booksService;
 
 	/**
-	 * 対象書籍を返却する
+	 * 対象書籍を返却≒削除する
 	 *
 	 * @param locale ロケール情報
 	 * @param bookId 書籍ID
@@ -41,23 +41,26 @@ public class ReturnBookController {
 	public String returnBook(Locale locale, @RequestParam("bookId") Integer bookId, Model model) {
 		logger.info("Welcome returnBook! The client locale is {}.", locale);
 
+		model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
+
 		BookRentInfo selectedReturntInfo = rentBookService.selectRentBookInfo(bookId);
 
 		if (selectedReturntInfo == null) {
 			model.addAttribute("errorMessage", "貸出しされていません。");
-			model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
 
 		} else {
-
+			// 貸出テーブルから削除
 			rentBookService.returnBook(bookId);
-
-			model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
 		}
+
 		String bookDetailsInfo = booksService.getStatusBookInfo(bookId);
+
 		if (bookDetailsInfo == null) {
 			model.addAttribute("statusMessage", "貸し出し可");
+
 		} else {
 			model.addAttribute("statusMessage", "貸し出し中");
+
 		}
 		return "details";
 	}
