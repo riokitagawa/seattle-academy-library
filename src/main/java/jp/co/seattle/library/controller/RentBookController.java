@@ -27,24 +27,34 @@ public class RentBookController {
 	@Autowired
 	private BooksService booksService;
 
+	/**
+	 * 書籍を借りる
+	 *
+	 * @param locale ロケール情報
+	 * @param bookId 書籍I
+	 * @param model  モデル
+	 * @return 遷移先画面
+	 */
 	@RequestMapping(value = "/rentBook", method = RequestMethod.POST) // value＝actionで指定したパラメータ
 	// RequestParamでname属性を取得
 	public String rentBook(Locale locale, @RequestParam("bookId") Integer bookId, Model model) {
 		logger.info("Welcome rentBook! The client locale is {}.", locale);
 
+		model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
+
 		BookRentInfo selectedRentInfo = rentBookService.selectRentBookInfo(bookId);
 
 		if (selectedRentInfo != null) {
 			model.addAttribute("errorMessage", "貸出済みです");
-			model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
-			return "details";
+
+			
 		} else {
 
 			// 貸出テーブルに登録
 			rentBookService.rentBook(bookId);
 			// 書籍の情報保持
-			model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
-			return "details";
 		}
+			return "details";
+		
 	}
 }
