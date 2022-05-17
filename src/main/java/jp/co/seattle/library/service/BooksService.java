@@ -148,4 +148,20 @@ public class BooksService {
 
 		jdbcTemplate.update(sql);
 	}
+	
+	/**
+	 * 書籍を検索する
+	 * 検索ワードと一致する書籍詳細情報を取得する
+	 *
+	 * @param bookId 書籍ID
+	 * @return 書籍情報
+	 */	
+	public List<BookInfo> searchBooks(String search) {
+
+		List<BookInfo> searchBooksList = jdbcTemplate.query(
+				"select id, title, author, publisher, publish_date, thumbnail_url, thumbnail_name from books where title like '%" + search + "%'",
+				new BookInfoRowMapper());
+
+		return searchBooksList;
+	}	
 }
