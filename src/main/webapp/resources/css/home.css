@@ -108,6 +108,9 @@ input {
     color: white;
     pointer-events: none;
 }
+.content_body{
+	padding-top: 15px;
+}
 
 .booklist {
     margin-top: 15px;

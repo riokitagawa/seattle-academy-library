@@ -23,6 +23,7 @@ public class SearchBooksController {
 
 	@Autowired
 	private BooksService booksService;
+
 	/**
 	 * 書籍名を検索
 	 *
@@ -32,13 +33,13 @@ public class SearchBooksController {
 	 */
 	@Transactional
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
-	public String SearchBooks(Locale locale, @RequestParam("search") String search,
-			Model model) {
-		
+	public String SearchBooks(Locale locale, @RequestParam("search") String search, Model model) {
+
 		logger.info("Welcome SearchBooks! The client locale is {}.", locale);
-				
+
 		model.addAttribute("bookList", booksService.searchBooks(search));
+
 		return "home";
-		
+
 	}
-}		
+}

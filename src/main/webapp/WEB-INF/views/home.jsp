@@ -39,8 +39,8 @@
         <div class="btn_searchBook">
             <a href="<%=request.getContextPath()%>/addBook" class="btn_add_book">書籍の追加</a> <a href="<%=request.getContextPath()%>/bulkRegist" class="btn_bulk_book">一括登録</a>
             <div class="content_body">
-                <c:if test="${!empty resultMessage}">
-                    <div class="error_msg">${resultMessage}</div>
+                <c:if test="${empty bookList}">
+                    <div class="error_msg">一致する書籍がありません。</div>
                 </c:if>
             </div>
             <div>
