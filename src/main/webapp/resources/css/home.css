@@ -2,6 +2,7 @@ input {
     outline: 0;
     border: 0;
     background: transparent;
+    border :solid 1px #245fa3;
 }
 
 .icon {
@@ -42,6 +43,7 @@ input {
     text-align: center;
 }
 
+
 .body form {
     border: none;
     display: inline-block;
@@ -63,11 +65,25 @@ input {
     background-color: red;
     color: white;
 }
+.home__search{
+	position: relative;
+}
+.home_searchleft{
+	float: left;
+	display: inline;
+}
+.home__searchright{
+	float: right;
+	position:absolute;
+	right:0;	
+}
+
 
 /* ここから追加 */
 .search_box {
     position: relative;
     margin-left: -5px;
+    display: inline-block;
 }
 
 .search1 {
@@ -91,6 +107,9 @@ input {
     right: 12px;
     color: white;
     pointer-events: none;
+}
+.content_body{
+	padding-top: 15px;
 }
 
 .booklist {
@@ -140,7 +159,7 @@ img.book_noimg, img.book_img{
     font-size: 12px;
 }
 
-a.btn_add_book,a.btn_bulk_book, button.btn_addBook,button.btn_editBook, button.btn_deleteBook,button.btn_rentBook,button.btn_returnBook,button.btn_bulkRegist {
+a.btn_add_book,a.btn_bulk_book, button.btn_addBook,button.btn_editBook, button.btn_deleteBook,button.btn_rentBook,button.btn_returnBook,button.btn_bulkRegist,button.btn_searchBook{
     display: inline-block;
     font-size: 16px;
     font-weight: bold;
@@ -171,6 +190,12 @@ button.btn_returnBook {
 }
 button.btn_bulkRegist {
 	background-color: #FF9966;
+}
+button.btn_searchBook{
+	margin-bottom: 5px;
+	font-size: 15px;
+	padding: 2px 12px;
+	border:#7db4e6;
 }
 
 a:hover, button:hover {
@@ -217,6 +242,9 @@ a:hover, button:hover {
 .button.btn_bulkRegist{
 	    display: flex;
     justify-content: center;
+}
+home__search.search_box{
+	float: right;
 }
 
 
