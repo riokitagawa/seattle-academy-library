@@ -57,12 +57,8 @@ public class RentBookController {
 
 		String bookDetailsInfo = booksService.getStatusBookInfo(bookId);
 
-		if (bookDetailsInfo == null) {
-			model.addAttribute("statusMessage", "貸し出し可");
-
-		} else {
-			model.addAttribute("statusMessage", "貸し出し中");
-		}
+		model.addAttribute("statusMessage", bookDetailsInfo);
+		
 		return "details";
 	}
 

@@ -40,23 +40,24 @@ public class BooksService {
 	}
 
 	/**
-	 * 書籍IDに紐づく書籍詳細情報を書籍テーブル、貸出テーブルを結合したテーブルから取得する
+	 * 書籍IDに紐づくステータス情報を書籍テーブル、貸出テーブルを結合したテーブルから取得する
 	 *
 	 * @param bookId 書籍ID
-	 * @return 書籍情報
+	 * @return ステータス情報
 	 */
 	public String getStatusBookInfo(int bookId) {
 
 		// JSPに渡すデータを設定する
-		
-		String sql = "select book_id from rentbooks right join books on books.id = rentbooks.book_id where id =" + bookId;
+
+		String sql = "select case when book_id =" + bookId
+				+ "then '貸し出し中' else '貸し出し可' end from rentbooks right join books on rentbooks.book_id = books.id where id ="
+				+ bookId;
 
 		String bookDetailsInfo = jdbcTemplate.queryForObject(sql, String.class);
 
 		return bookDetailsInfo;
 	}
 
-		
 	/**
 	 * 書籍IDに紐づく書籍詳細情報を取得する
 	 *

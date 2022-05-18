@@ -37,14 +37,14 @@ public class DetailsController {
 	public String detailsBook(Locale locale, @RequestParam("bookId") Integer bookId, Model model) {
 		// デバッグ用ログ
 		logger.info("Welcome detailsControler.java! The client locale is {}.", locale);
+
 		model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
+		
+		//ステータス情報取得して変数に格納
 		String bookDetailsInfo = booksService.getStatusBookInfo(bookId);
 
-		if (bookDetailsInfo == null) {
-			model.addAttribute("statusMessage", "貸し出し可");
-		} else {
-			model.addAttribute("statusMessage", "貸し出し中");
-		}
-			return "details";
+		model.addAttribute("statusMessage", bookDetailsInfo);
+
+		return "details";
 	}
 }

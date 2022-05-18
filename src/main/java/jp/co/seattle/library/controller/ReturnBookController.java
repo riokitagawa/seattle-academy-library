@@ -55,13 +55,8 @@ public class ReturnBookController {
 
 		String bookDetailsInfo = booksService.getStatusBookInfo(bookId);
 
-		if (bookDetailsInfo == null) {
-			model.addAttribute("statusMessage", "貸し出し可");
+		model.addAttribute("statusMessage", bookDetailsInfo);
 
-		} else {
-			model.addAttribute("statusMessage", "貸し出し中");
-
-		}
 		return "details";
 	}
 
