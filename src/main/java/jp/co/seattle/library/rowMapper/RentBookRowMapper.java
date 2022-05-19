@@ -17,9 +17,11 @@ public class RentBookRowMapper implements RowMapper<BookRentInfo> {
     	BookRentInfo rentbookInfo = new BookRentInfo();
 
         // bookInfoの項目と、取得した結果(rs)のカラムをマッピングする
-        rentbookInfo.setBookId(rs.getInt("book_id"));
-        rentbookInfo.setRentbookId(rs.getInt("rentbook_id"));
-       
+//        rentbookInfo.setBookId(rs.getInt("book_id"));
+//        rentbookInfo.setRentbookId(rs.getInt("rentbook_id"));
+    	rentbookInfo.setTitle(rs.getString("title"));
+    	  rentbookInfo.setRentdate(rs.getString("rent_date"));
+    	  rentbookInfo.setReturndate(rs.getString("return_date"));
 
         
         return rentbookInfo;

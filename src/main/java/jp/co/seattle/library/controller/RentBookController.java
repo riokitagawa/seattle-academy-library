@@ -52,13 +52,13 @@ public class RentBookController {
 			rentBookService.rentBook(bookId);
 			// 書籍の情報保持
 			model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
-
 		}
 
 		String bookDetailsInfo = booksService.getStatusBookInfo(bookId);
 
 		model.addAttribute("statusMessage", bookDetailsInfo);
 		
+
 		return "details";
 	}
 
