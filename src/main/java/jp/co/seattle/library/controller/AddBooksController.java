@@ -113,6 +113,8 @@ public class AddBooksController {
 		booksService.registBook(bookInfo);
 
 		model.addAttribute("resultMessage", "登録完了");
+		
+		model.addAttribute("statusMessage", "貸し出し可");
 
 		// TODO 登録した書籍の詳細情報を表示するように実装
 		model.addAttribute("bookDetailsInfo", booksService.getBookInfo());

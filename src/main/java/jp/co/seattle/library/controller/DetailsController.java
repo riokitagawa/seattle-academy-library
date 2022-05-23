@@ -39,8 +39,8 @@ public class DetailsController {
 		logger.info("Welcome detailsControler.java! The client locale is {}.", locale);
 
 		model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
-		
-		//ステータス情報取得して変数に格納
+
+		// ステータス情報取得して変数に格納
 		String bookDetailsInfo = booksService.getStatusBookInfo(bookId);
 
 		model.addAttribute("statusMessage", bookDetailsInfo);

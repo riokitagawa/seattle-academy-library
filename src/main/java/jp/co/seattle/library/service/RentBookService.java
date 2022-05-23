@@ -35,37 +35,48 @@ public class RentBookService {
 
 		jdbcTemplate.update(sql);
 	}
-	/**
-	 * rentbboksテーブルにタイトルと日付カラムを付け加えようとした。 消そう。↓
-	 * 貸出す書籍を貸出テーブルに登録する
-	 *
-	 * @param bookInfo 書籍情報
-	 */
-//	public void rentBook(int bookId) {
-//
-//		String sql = "INSERT INTO rentbooks (book_id,title,rent_date,return_date) VALUES (" 
-//				+ bookId + bookrentInfo.getTitle() + "'," + "now()," + "now())";
-//
-//		jdbcTemplate.update(sql);
-//	}
-
+	
 	/**
 	 * 貸出テーブルから情報取得
 	 *
 	 * @param bookInfo 書籍情報
 	 */
-	public BookRentInfo selectRentBookInfo(int bookId) {
-		String sql = "select * from rentbooks where book_id =" + bookId;
+	public String selectRentBookInfo(int bookId) {
+		String sql = "select book_id from rentbooks where book_id =" + bookId;
 
 		try {
-			BookRentInfo selectedRentInfo = jdbcTemplate.queryForObject(sql, new RentBookRowMapper());
+			String selectedRentInfo = jdbcTemplate.queryForObject(sql, String.class);
 			return selectedRentInfo;
 		} catch (Exception e) {
 			return null;
 		}
 	}
-
 	
+	/**
+	 * 貸出テーブルから貸出日取得
+	 *
+	 * @param bookInfo 書籍情報
+	 */
+	public String selectRentdateInfo(int bookId) {
+		String sql = "select rent_date from rentbooks where book_id =" + bookId;
+
+		try {
+			String selectedRentdateInfo = jdbcTemplate.queryForObject(sql, String.class);
+			return selectedRentdateInfo;
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
+	/**
+	 * 貸出テーブルの貸出日付に日付を入れる、返却日の日付を消す つまり（情報更新
+	 *
+	 * @param bookInfo 書籍情報
+	 */
+	public void updateRentdateInfo(int bookId) {
+		String sql = "update rentbooks set rent_date = now(), return_date = null where book_id =" + bookId;
+		jdbcTemplate.update(sql);
+	}
 	
 	/**
 	 * 貸出テーブルからタイトル、借りた日付、返却した日付を取得
@@ -75,37 +86,20 @@ public class RentBookService {
 	public List<BookRentInfo> rentHistroy() {
 
 		List<BookRentInfo> rentHistoryList = jdbcTemplate.query(
-				"select title, rent_date, return_date from rentbooks inner join books on rentbooks.book_id = books.id",
+				"select book_id, title, rent_date, return_date from rentbooks inner join books on rentbooks.book_id = books.id",
 				new RentBookRowMapper());
 		return rentHistoryList;
 	}
-	//下のこのやつじゃなくてList↑　を使うんじゃに？　消そう。↓
-//	public BookRentInfo rentHistroy() {
-//		String sql = "select title, rent_date, return_date from rentbooks inner join books on rentbooks.book_id = books.id";
-//
-//		try {
-//			BookRentInfo selectedRentInfo = jdbcTemplate.queryForObject(sql, new RentBookRowMapper());
-//			return selectedRentInfo;
-//		} catch (Exception e) {
-//			return null;
-//		}
-//
-//	}
 	
-	
-	
-	
-
 	/**
-	 * 貸出してある書籍を貸出テーブルから削除する
+	 * 貸出してある書籍を貸出テーブルから削除する　→　返却したら貸出テーブルの返却日カラムのレコードに返却した日付入れる
 	 *
 	 * @param bookInfo 書籍情報
 	 */
 	public void returnBook(int bookId) {
 
-		String sql = "delete from rentbooks where book_id =" + bookId;
-		String sql2 = "INSERT INTO rentbooks (book_id,return_date) VALUES (" + bookId + "now())";
-
-		jdbcTemplate.update(sql, sql2);
+		String sql = "update rentbooks set rent_date = null, return_date = now() where book_id =" + bookId;
+		
+		jdbcTemplate.update(sql);
 	}
 }
