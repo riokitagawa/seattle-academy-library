@@ -16,15 +16,24 @@ public class BookRentInfo {
 
 	private int rentbookId;
 	
+	private String title;
+	
+	private String rentdate;
+	
+	private String returndate;
+	
 	
 	public BookRentInfo() {
 
 	}
 
-	public BookRentInfo(int bookId, int rentbook_id) {
+	public BookRentInfo(int bookId, int rentbook_id, String title, String rentdate, String returndate) {
 
 		this.bookId = bookId;
 		this.rentbookId = rentbook_id;
+		this.title = title;
+		this.rentdate = rentdate;
+		this.returndate = returndate;
 	}
 
 }

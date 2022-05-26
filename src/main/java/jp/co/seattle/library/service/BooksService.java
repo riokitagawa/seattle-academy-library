@@ -48,15 +48,15 @@ public class BooksService {
 	public String getStatusBookInfo(int bookId) {
 
 		// JSPに渡すデータを設定する
-
-		String sql = "select case when book_id =" + bookId
-				+ "then '貸し出し中' else '貸し出し可' end from rentbooks right join books on rentbooks.book_id = books.id where id ="
-				+ bookId;
-
+		System.out.println(bookId);
+		
+		String sql = "select case when rentbooks.rent_date is not null then '貸し出し中' else '貸し出し可' end from rentbooks right join books on rentbooks.book_id = books.id where id =" + bookId;
+		System.out.println(sql);
+			
 		String bookDetailsInfo = jdbcTemplate.queryForObject(sql, String.class);
-
-		return bookDetailsInfo;
-	}
+			
+			return bookDetailsInfo;
+	}	
 
 	/**
 	 * 書籍IDに紐づく書籍詳細情報を取得する
@@ -68,7 +68,23 @@ public class BooksService {
 
 		// JSPに渡すデータを設定する
 		String sql = "SELECT * FROM books where id =" + bookId;
+			System .out.println(sql);
+		BookDetailsInfo bookDetailsInfo = jdbcTemplate.queryForObject(sql, new BookDetailsInfoRowMapper());
 
+		return bookDetailsInfo;
+	}
+	
+	/**
+	 * 書籍名に紐づく書籍詳細情報を取得する
+	 *
+	 * @param bookId 書籍ID
+	 * @return 書籍情報
+	 */
+	public BookDetailsInfo getBookInfobytitle(String title) {
+
+		// JSPに渡すデータを設定する
+		String sql = "SELECT * FROM books where title =" + title;
+			System .out.println(sql);
 		BookDetailsInfo bookDetailsInfo = jdbcTemplate.queryForObject(sql, new BookDetailsInfoRowMapper());
 
 		return bookDetailsInfo;

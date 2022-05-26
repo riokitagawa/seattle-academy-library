@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import jp.co.seattle.library.dto.BookRentInfo;
 import jp.co.seattle.library.service.BooksService;
 import jp.co.seattle.library.service.RentBookService;
 
@@ -29,7 +28,7 @@ public class ReturnBookController {
 	private BooksService booksService;
 
 	/**
-	 * 対象書籍を返却≒削除する
+	 * 対象書籍を返却する≒返却日に日付を入れる（貸出日を消す）
 	 *
 	 * @param locale ロケール情報
 	 * @param bookId 書籍ID
@@ -43,14 +42,14 @@ public class ReturnBookController {
 
 		model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
 
-		BookRentInfo selectedReturntInfo = rentBookService.selectRentBookInfo(bookId);
+		String selectedRentdateInfo = rentBookService.selectRentdateInfo(bookId);
 
-		if (selectedReturntInfo == null) {
-			model.addAttribute("errorMessage", "貸出しされていません。");
+		if (selectedRentdateInfo != null) {
+			// 貸出テーブルの貸出日情報を消して、返却日の情報を更新
+			rentBookService.returnBook(bookId);
 
 		} else {
-			// 貸出テーブルから削除
-			rentBookService.returnBook(bookId);
+			model.addAttribute("errorMessage", "貸出しされていません。");
 		}
 
 		String bookDetailsInfo = booksService.getStatusBookInfo(bookId);
