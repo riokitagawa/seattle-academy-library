@@ -33,13 +33,21 @@ public class SearchBooksController {
 	 */
 	@Transactional
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
-	public String SearchBooks(Locale locale, @RequestParam("search") String search, Model model) {
+	public String SearchBooks(Locale locale, @RequestParam("search") String search,
+			@RequestParam("searchway") String searchway, Model model) {
 
 		logger.info("Welcome SearchBooks! The client locale is {}.", locale);
 
-		model.addAttribute("bookList", booksService.searchBooks(search));
+		// 完全一致の方が選択されていたら書籍名が検索ワードと完全一致する情報を取得する
+		if (searchway.equals("0")) {
+			model.addAttribute("bookList", booksService.searchBooksPerfectly(search));
+			return "home";
 
-		return "home";
+		} else {
+		// 部分一致による書籍情報の取得　
+			model.addAttribute("bookList", booksService.searchBooks(search));
 
+			return "home";
+		}
 	}
 }

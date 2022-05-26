@@ -168,7 +168,7 @@ public class BooksService {
 	
 	/**
 	 * 書籍を検索する
-	 * 検索ワードと一致する書籍詳細情報を取得する
+	 * 検索ワードと部分一致する書籍詳細情報を取得する
 	 *
 	 * @param bookId 書籍ID
 	 * @return 書籍情報
@@ -180,5 +180,21 @@ public class BooksService {
 				new BookInfoRowMapper());
 
 		return searchBooksList;
-	}	
+	}
+	
+	/**
+	 * 書籍を検索する
+	 * 検索ワードと完全一致する書籍詳細情報を取得する
+	 *
+	 * @param bookId 書籍ID
+	 * @return 書籍情報
+	 */	
+	public List<BookInfo> searchBooksPerfectly(String search) {
+
+		List<BookInfo> searchBooksList = jdbcTemplate.query(
+				"select id, title, author, publisher, publish_date, thumbnail_url, thumbnail_name from books where title = " + "'"+ search +"'",
+				new BookInfoRowMapper());
+
+		return searchBooksList;
+	}
 }

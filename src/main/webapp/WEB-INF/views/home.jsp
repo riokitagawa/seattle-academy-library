@@ -33,6 +33,8 @@
                 <form method="post" action="search">
                     <input type="search" class="search_box" id="search" name="search" placeholder="キーワード"required />
                     <button type="submit" class="btn_searchBook">検索</button>
+                    <input type="radio" name="searchway" value="0">完全一致
+                    <input type="radio" name="searchway" value="1" checked="checked">部分一致
                 </form>
             </div>
         </div>
